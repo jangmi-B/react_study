@@ -46,11 +46,11 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     LocalStorageController.saveItem("isAuthenticated", localAuth);
   };
   const logout = () => {
-    if (window.confirm("로그아웃 하시겠습니까?")) {
-      setUser({ isAuthenticated: false });
-      LocalStorageController.removeItem("isAuthenticated");
-      window.location.replace("/");
-    }
+    // if (window.confirm("로그아웃 하시겠습니까?")) {
+    setUser({ isAuthenticated: false });
+    LocalStorageController.removeItem("isAuthenticated");
+    window.location.replace("/");
+    // }
   };
 
   // provider는 정의한 context를 하위 컴포넌트에게 전달하는 역할을 합니다.

@@ -8,12 +8,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { UserInfo } from "./SignUp";
-import { Auth } from "./UserContextProvider";
+import { Auth, AuthContext, AuthContextType } from "./UserContextProvider";
 import { LocalStorageController } from "../commonClass/LocalStorage";
+import { useContext } from "react";
 
 const theme = createTheme();
 
 export default function MyPage() {
+  const userContext = useContext<AuthContextType>(AuthContext);
   const [storeIndex, setStoreIndex] = useState(0);
   const [idx, setIdx] = useState("");
   const [id, setId] = useState("");
@@ -49,7 +51,8 @@ export default function MyPage() {
     });
   }, []);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  // 회원수정
+  const modifyUser = (event: React.FormEvent) => {
     event.preventDefault();
     if (window.confirm("변경내용을 저장하시겠습니까?")) {
       const userInfo: UserInfo = {
@@ -63,6 +66,18 @@ export default function MyPage() {
       localUserInfo.splice(storeIndex, 1);
       localUserInfo.push(userInfo);
       LocalStorageController.saveItem("userInfo", localUserInfo);
+    }
+  };
+
+  // 회원탈퇴
+  const deleteUser = (event: React.FormEvent) => {
+    if (window.confirm("정말 탈퇴하시겠습니까?")) {
+      localUserInfo.splice(storeIndex, 1);
+      LocalStorageController.saveItem("userInfo", localUserInfo);
+      userContext.logout();
+
+      alert("탈퇴되었습니다. 메인페이지로 이동합니다.");
+      window.location.replace("/");
     }
   };
 
@@ -146,7 +161,7 @@ export default function MyPage() {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  onClick={handleSubmit}
+                  onClick={modifyUser}
                   fullWidth
                   sx={{
                     marginTop: "5%",
@@ -157,11 +172,32 @@ export default function MyPage() {
                       backgroundColor: "#f9d142",
                       color: "#292826",
                       boxShadow: "0 5px 10px rgba(0, 0, 0, 0.5)",
-                      // border: "2px solid #f9d142",
                     },
                   }}
                 >
                   수정하기
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {/* 폼 제출 버튼 */}
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  onClick={deleteUser}
+                  fullWidth
+                  sx={{
+                    backgroundColor: "gray",
+                    color: "white",
+                    fontFamily: "OTWelcomeRA",
+                    "&:hover": {
+                      backgroundColor: "gray",
+                      color: "white",
+                      boxShadow: "0 5px 10px rgba(0, 0, 0, 0.5)",
+                    },
+                  }}
+                >
+                  회원탈퇴
                 </Button>
               </Grid>
             </Grid>
