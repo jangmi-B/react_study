@@ -127,7 +127,7 @@ function MenuBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            엑스원
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
           <Box sx={{ flexGrow: 0 }}>

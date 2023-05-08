@@ -27,6 +27,7 @@ const theme = createTheme();
 export default function SignUp() {
   // useState는 값이 바뀌면 다시 렌더링된다.. 그래서 값이 할당이 안됐음..
   // https://velog.io/@jjunyjjuny/React-useState%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C
+  // 에러 메시지를 표시하거나 체크박스의 상태를 관리하는 데 사용되는 변수들
   const [nameError, setNameError] = useState("");
   const [idError, setIdError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -53,6 +54,7 @@ export default function SignUp() {
   // 아이디 중복확인
   const isDuplicated = (id: string) => {
     let result = false;
+    // 로컬에서 가져와서 아이디를 비교한다.
     const localUserInfo: UserInfo[] = LocalStorageController.getItem("userInfo");
 
     localUserInfo.forEach((element: UserInfo) => {
